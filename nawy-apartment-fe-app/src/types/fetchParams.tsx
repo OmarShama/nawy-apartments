@@ -5,15 +5,15 @@ export interface FetchParams {
     unitNumber?: string;
     project?: string;
     sortBy?: 'size' | 'price' | 'bedroomsCount' | 'bathroomsCount';
-    order?: 'ASC' | 'DESC';
+    order?: string;
     city?: string;
     country?: string;
     size?: string;
-    minSize?: string;
-    maxSize?: string;
+    minSize?: number;
+    maxSize?: number;
     price?: string;
-    minPrice?: string;
-    maxPrice?: string;
+    minPrice?: number;
+    maxPrice?: number;
     bedroomsCount?: string;
     bathroomsCount?: string;
 }

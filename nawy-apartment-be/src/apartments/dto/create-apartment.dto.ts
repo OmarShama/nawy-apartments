@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsString, IsNumber, IsArray, IsOptional, IsPositive } from 'class-validator';
 
 export class CreateApartmentDto {
@@ -44,8 +44,15 @@ export class CreateApartmentDto {
     @ApiProperty({ example: 2 })
     bathroomsCount: number;
 
-    @IsArray()
     @ApiProperty({ example: ['Amenity one', 'Amenity two'], isArray: true })
+    @IsOptional()
+    @Transform(({ value }) => {
+        if (typeof value === 'string') return [value];
+        if (Array.isArray(value)) return value;
+        return [];
+    })
+    @IsArray()
+    @IsString({ each: true })
     amenities: string[];
 
     @IsString()

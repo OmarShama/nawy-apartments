@@ -19,13 +19,13 @@ export function ApartmentCard({
     project,
     images,
 }: ApartmentCardProps) {
-    const imageUrl = images?.[0]?.url || '/placeholder.jpg'; // fallback image
-
+    const imageUrl = images?.[0]?.url || '';
+    console.log(`This is image url ${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`);
     return (
         <Card className="overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
             <div className="relative w-full h-48">
                 <Image
-                    src={imageUrl}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`}
                     alt={title}
                     fill
                     className="object-cover"

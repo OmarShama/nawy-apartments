@@ -1,46 +1,78 @@
-'use client';
-
+import { RefObject, useEffect, useRef } from 'react';
 import { SortProps } from '@/types/sortProps';
-import { useState } from 'react';
-import { FaSortAmountDown } from 'react-icons/fa';
 
+export default function SortPanel({
+    values,
+    onChange,
+    activePanel,
+    setActivePanel,
+    iconRef,
+}: SortProps & {
+    activePanel: 'search' | 'filter' | 'sort' | null;
+    setActivePanel: (panel: 'search' | 'filter' | 'sort' | null) => void;
+    iconRef: React.RefObject<HTMLButtonElement | null>;
+}) {
+    const isOpen = activePanel === 'sort';
+    const panelRef = useRef<HTMLDivElement | null>(null);
 
-
-const options = [
-    { value: 'price', label: 'Price' },
-    { value: 'size', label: 'Size' },
-    { value: 'bedroomsCount', label: 'Bedrooms Count' },
-    { value: 'bathroomsCount', label: 'Bathrooms Count' },
-];
-
-export default function SortPanel({ values, onChange }: SortProps) {
-    const [open, setOpen] = useState(false);
-
-    const handleSortChange = (field: string) => {
-        const newOrder = values.sortBy === field && values.order === 'DESC' ? 'DESC' : 'ASC';
-        onChange(field, newOrder);
-        setOpen(false);
+    const handleSelect = (sortBy: string, order: string) => {
+        onChange(sortBy, order);
+        setActivePanel(null);
     };
 
-    return (
-        <div className="relative">
-            <button onClick={() => setOpen(!open)}>
-                <FaSortAmountDown className="text-xl" />
-            </button>
+    useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent) => {
+            const target = e.target as Node;
+            if (
+                panelRef.current &&
+                !panelRef.current.contains(target) &&
+                iconRef?.current &&
+                !iconRef.current.contains(target)
+            ) {
+                setActivePanel(null);
+            }
+        };
 
-            {open && (
-                <div className="absolute right-0 top-full mt-2 bg-white shadow-md rounded-md z-20 w-48 border">
-                    {options.map((opt) => (
-                        <button
-                            key={opt.value}
-                            className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${values.sortBy === opt.value ? 'font-bold' : ''}`}
-                            onClick={() => handleSortChange(opt.value)}
-                        >
-                            {opt.label} ({values.sortBy === opt.value ? values.order : 'ASC'})
-                        </button>
-                    ))}
-                </div>
-            )}
+        if (isOpen) {
+            document.addEventListener('mousedown', handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [isOpen, setActivePanel, iconRef]);
+
+    if (!isOpen) return null;
+
+    return (
+        <div
+            ref={panelRef}
+            className="absolute z-20 mt-2 bg-white border shadow-md rounded-md w-64 p-2 space-y-1"
+        >
+            <div className="text-sm font-medium text-muted-foreground mb-1">Sort By</div>
+            {[
+                { label: 'Price (lowest to highest)', sortBy: 'price', order: 'ASC' },
+                { label: 'Price (highest to lowest)', sortBy: 'price', order: 'DESC' },
+                { label: 'Size (lowest to highest)', sortBy: 'size', order: 'ASC' },
+                { label: 'Size (highest to lowest)', sortBy: 'size', order: 'DESC' },
+                { label: 'Bedrooms (lowest to highest)', sortBy: 'bedroomsCount', order: 'ASC' },
+                { label: 'Bedrooms (highest to lowest)', sortBy: 'bedroomsCount', order: 'DESC' },
+                { label: 'Bathrooms (lowest to highest)', sortBy: 'bathroomsCount', order: 'ASC' },
+                { label: 'Bathrooms (highest to lowest)', sortBy: 'bathroomsCount', order: 'DESC' },
+            ].map((opt) => {
+                const isSelected =
+                    values.sortBy === opt.sortBy && values.order === opt.order;
+                return (
+                    <button
+                        key={opt.label}
+                        className={`w-full text-left px-2 py-1 rounded text-sm hover:bg-gray-100 ${isSelected ? 'bg-blue-100 font-semibold' : ''
+                            }`}
+                        onClick={() => handleSelect(opt.sortBy, opt.order)}
+                    >
+                        {opt.label}
+                    </button>
+                );
+            })}
         </div>
     );
 }

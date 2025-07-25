@@ -12,5 +12,5 @@ export const typeOrmConfig = (
     database: configService.get<string>('DB_NAME'),
     schema: configService.get<string>('DB_SCHEMA'),
     autoLoadEntities: true,
-    synchronize: true,
+    synchronize: false,
 });

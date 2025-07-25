@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nawy
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./nawy-apartment-be
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    env_file:
+      - ./nawy-apartment-be/.env
+    depends_on:
+      - db
+    ports:
+      - "3005:3005"
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/nawy?schema=nawy_apartments_schema
+    volumes:
+      - ./nawy-apartment-be:/app
+      - /app/node_modules
+      - ./nawy-apartment-be/uploads:/app/uploads 
+
+  frontend:
+    build:
+      context: ./nawy-apartment-fe-app
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    env_file:
+      - ./nawy-apartment-fe-app/.env
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nawy-apartment-fe-app:/app
+      - /app/node_modules
+
+volumes:
+  pgdata:

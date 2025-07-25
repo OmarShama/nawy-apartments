@@ -1,4 +1,10 @@
+export interface SearchValues {
+    name: string;
+    unitNumber: string;
+    project: string;
+}
+
 export interface SearchProps {
-    values: { name: string; unitNumber: string; project: string };
-    onChange: (values: any) => void;
+    values: SearchValues;
+    onChange: (values: SearchValues) => void;
 }

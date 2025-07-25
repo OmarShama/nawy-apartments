@@ -1,22 +1,35 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { X } from 'lucide-react';
+interface ImageUploaderProps {
+    onFiles: (files: File[]) => void;
+    files: File[];
+}
 
-export function ImageUploader({ onFiles }: { onFiles: (files: File[]) => void }) {
-    const [previews, setPreviews] = useState<string[]>([]);
-
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-        const validFiles = acceptedFiles.filter(file =>
-            ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
-        );
-        setPreviews(validFiles.map(file => URL.createObjectURL(file)));
-        onFiles(validFiles);
-    }, [onFiles]);
+export function ImageUploader({
+    files,
+    onFiles,
+    onRemove
+}: {
+    files: File[];
+    onFiles: (files: File[]) => void;
+    onRemove: (index: number) => void;
+}) {
+    const onDrop = useCallback(
+        (acceptedFiles: File[]) => {
+            const validFiles = acceptedFiles.filter(file =>
+                ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
+            );
+            onFiles(validFiles); // send new files to parent
+        },
+        [onFiles]
+    );
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {
             'image/jpeg': ['.jpeg', '.jpg'],
-            'image/png': ['.png']
+            'image/png': ['.png'],
         },
         multiple: true,
     });
@@ -29,9 +42,25 @@ export function ImageUploader({ onFiles }: { onFiles: (files: File[]) => void })
             ) : (
                 <p>Drag & drop images or click to browse (JPEG, JPG, PNG)</p>
             )}
-            <div className="flex gap-2 mt-4 flex-wrap">
-                {previews.map((src, index) => (
-                    <img key={index} src={src} alt="Preview" className="h-20 rounded" />
+            <div className="flex flex-wrap gap-2 mt-4">
+                {files.map((file, index) => (
+                    <div key={index} className="relative group">
+                        <img
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            className="h-20 w-20 object-cover rounded"
+                        />
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onRemove(index);
+                            }}
+                            className="absolute top-1 right-1 bg-white bg-opacity-80 rounded-full text-red-600 text-xs w-5 h-5 flex items-center justify-center group-hover:scale-110 transition"
+                        >
+                            <X size={14} />
+                        </button>
+                    </div>
                 ))}
             </div>
         </div>

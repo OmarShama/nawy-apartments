@@ -1,94 +1,126 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { createApartment } from '@/services/apartmentService';
-import { ApartmentCreateForm } from '@/types/apartmentCreateForm';
-import { ImageUploader } from '@/components/imageUploader'
+import { ImageUploader } from '@/components/imageUploader';
+import { useEffect, useState } from 'react';
+import { apartmentSchema } from '@/types/apartmentSchema';
+import { X } from 'lucide-react';
+type ApartmentFormType = z.infer<typeof apartmentSchema>;
 export default function ApartmentForm() {
     const router = useRouter();
-
-    const [form, setForm] = useState<ApartmentCreateForm>({
-        name: '',
-        title: '',
-        description: '',
-        price: 0,
-        size: 0,
-        bedroomsCount: 0,
-        bathroomsCount: 0,
-        address: '',
-        city: '',
-        country: '',
-        project: '',
-        unitNumber: '',
-        amenities: [],
-        images: [],
+    const [amenityInput, setAmenityInput] = useState('');
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        getValues,
+        watch,
+        formState: { errors },
+    } = useForm<ApartmentFormType>({
+        resolver: zodResolver(apartmentSchema) as any,
+        defaultValues: {
+            name: '',
+            title: '',
+            description: '',
+            unitNumber: '',
+            price: 0,
+            size: 0,
+            bedroomsCount: 0,
+            bathroomsCount: 0,
+            address: '',
+            city: '',
+            country: '',
+            project: '',
+            amenities: [],
+            images: [],
+        },
     });
 
-    const [amenityInput, setAmenityInput] = useState('');
+    const amenities = watch('amenities') || [];
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({
-            ...prev,
-            [name]: name === 'price' || name === 'size' || name.includes('Count') ? Number(value) : value,
-        }));
+    const onSubmit = async (data: ApartmentFormType) => {
+        const finalData = {
+            ...data,
+            amenities: data.amenities || [],
+            images: data.images || [],
+        };
+
+        try {
+            await createApartment(finalData);
+            router.push('/apartments');
+        } catch (err) {
+            console.error(err);
+            alert(err);
+        }
     };
 
     const handleAddAmenity = () => {
-        if (amenityInput && !form.amenities.includes(amenityInput)) {
-            setForm((prev) => ({
-                ...prev,
-                amenities: [...prev.amenities, amenityInput],
-            }));
+        if (amenityInput && /^[A-Za-z\s]+$/.test(amenityInput) && !amenities.includes(amenityInput)) {
+            setValue('amenities', [...amenities, amenityInput]);
             setAmenityInput('');
         }
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const [images, setImages] = useState<File[]>([]);
 
-        try {
-            await createApartment(form); // send form data via service
-            router.push('/apartments'); // Go back to listing
-        } catch (error) {
-            console.error('Failed to create apartment:', error);
-            alert('Failed to create apartment');
-        }
+    const handleImageFiles = (newFiles: File[]) => {
+        const updated = [...images, ...newFiles].filter(
+            (file, index, self) =>
+                index === self.findIndex(f => f.name === file.name && f.size === file.size)
+        );
+
+        setImages(updated);
+        setValue('images', updated);
     };
-    const handleImageFiles = (files: File[]) => {
-        setForm(prev => ({ ...prev, images: files }));
+    const handleRemoveImage = (index: number) => {
+        const updated = images.filter((_, i) => i !== index);
+        setImages(updated);
+        setValue('images', updated);
     };
+    useEffect(() => {
+        console.log('Parent images state:', images);
+    }, [images]);
     return (
-        <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-4 p-6 bg-white rounded shadow">
-            <p> Name: </p>
-            <Input name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
-            <p> Unit Number: </p>
-            <Input name="unitNumber" placeholder="Unit Number" value={form.unitNumber} onChange={handleChange} required />
-            <p> Title: </p>
-            <Input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
-            <p> Description: </p>
-            <Textarea name="description" placeholder="Description" value={form.description} onChange={handleChange} required />
-            <p> Price: </p>
-            <Input name="price" type="number" placeholder="Price" value={form.price} onChange={handleChange} required />
-            <p> Size: </p>
-            <Input name="size" type="number" placeholder="Size" value={form.size} onChange={handleChange} required />
-            <p> Bedrooms Count: </p>
-            <Input name="bedroomsCount" type="number" placeholder="Bedrooms Count" value={form.bedroomsCount} onChange={handleChange} required />
-            <p> Bathrooms Count: </p>
-            <Input name="bathroomsCount" type="number" placeholder="Bathrooms Count" value={form.bathroomsCount} onChange={handleChange} required />
-            <p> Address: </p>
-            <Input name="address" placeholder="Address" value={form.address} onChange={handleChange} required />
-            <p> City: </p>
-            <Input name="city" placeholder="City" value={form.city} onChange={handleChange} required />
-            <p> Country: </p>
-            <Input name="country" placeholder="Country" value={form.country} onChange={handleChange} required />
-            <p> Project: </p>
-            <Input name="project" placeholder="Project" value={form.project} onChange={handleChange} required />
-            <p> Amenities: </p>
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto space-y-4 p-6 bg-white rounded shadow">
+            {[
+                { label: 'Name', name: 'name' },
+                { label: 'Unit Number', name: 'unitNumber' },
+                { label: 'Title', name: 'title' },
+                { label: 'Description', name: 'description', component: Textarea },
+                { label: 'Price', name: 'price', type: 'number' },
+                { label: 'Size', name: 'size', type: 'number' },
+                { label: 'Bedrooms Count', name: 'bedroomsCount', type: 'number' },
+                { label: 'Bathrooms Count', name: 'bathroomsCount', type: 'number' },
+                { label: 'Address', name: 'address' },
+                { label: 'City', name: 'city' },
+                { label: 'Country', name: 'country' },
+                { label: 'Project', name: 'project' },
+            ].map(({ label, name, component, type }) => {
+                const Comp = component || Input;
+                return (
+                    <div key={name}>
+                        <p>{label}:</p>
+                        <Comp
+                            type={type}
+                            {...register(name as keyof ApartmentFormType)}
+                        />
+                        {errors[name as keyof ApartmentFormType] && (
+                            <p className="text-red-500 text-sm">
+                                {errors[name as keyof ApartmentFormType]?.message?.toString()}
+                            </p>
+                        )}
+                    </div>
+                );
+            })}
+
+            <p>Amenities:</p>
             <div className="flex gap-2">
                 <Input
                     placeholder="Add Amenity"
@@ -99,15 +131,32 @@ export default function ApartmentForm() {
                     Add
                 </Button>
             </div>
+            {errors.amenities && <p className="text-red-500 text-sm">{errors.amenities.message?.toString()}</p>}
 
-            <ul className="list-disc pl-4">
-                {form.amenities.map((a, i) => (
-                    <li key={i}>{a}</li>
+            <ul className="list-disc pl-4 space-y-1">
+                {amenities.map((a, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                        <span>{a}</span>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                const updated = [...amenities];
+                                updated.splice(i, 1);
+                                setValue('amenities', updated);
+                            }}
+                            className="text-red-500 hover:text-red-700"
+                            aria-label={`Remove ${a}`}
+                        >
+                            <X size={16} />
+                        </button>
+                    </li>
                 ))}
             </ul>
 
-            <ImageUploader onFiles={handleImageFiles} />
+            <ImageUploader files={images} onFiles={handleImageFiles} onRemove={handleRemoveImage} />
+
             <Button type="submit">Create Apartment</Button>
         </form>
     );
 }
+

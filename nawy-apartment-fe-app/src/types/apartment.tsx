@@ -1,4 +1,5 @@
-interface Apartment {
+import { Image } from '@/types/image'
+export interface Apartment {
     id: number;
     unitNumber: string;
     name: string;

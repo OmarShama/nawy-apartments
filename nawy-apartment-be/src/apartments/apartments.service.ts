@@ -34,6 +34,9 @@ export class ApartmentsService {
       if (exists === true) {
         throw new BadRequestException(`${dto.unitNumber} already exists in ${dto.project} project`);
       }
+      dto.amenities = Array.isArray(dto.amenities)
+        ? dto.amenities : [];
+
       const apartment = this.apartmentRepo.create(dto);
       const savedApartment = await this.apartmentRepo.save(apartment);
 
@@ -54,6 +57,7 @@ export class ApartmentsService {
       }
       return apartmentWithImages;
     } catch (error) {
+      console.log(error)
       if (error instanceof HttpException) {
         throw error;
       }
@@ -82,7 +86,7 @@ export class ApartmentsService {
       if (error instanceof HttpException) {
         throw error;
       }
-      throw new InternalServerErrorException('Failed to create apartment');
+      throw new InternalServerErrorException('Failed to get apartments');
     }
   }
 
@@ -154,8 +158,8 @@ export class ApartmentsService {
     if (filters.name) query.andWhere('apartment.name ILIKE :name', { name: `%${filters.name}%` });
     if (filters.city) query.andWhere('apartment.city = :city', { city: filters.city });
     if (filters.country) query.andWhere('apartment.country = :country', { country: filters.country });
-    if (filters.project) query.andWhere('apartment.project = :project', { project: filters.project });
-    if (filters.unitNumber) query.andWhere('apartment.unitNumber = :unitNumber', { unitNumber: filters.unitNumber });
+    if (filters.project) query.andWhere('apartment.project ILIKE :project', { project: `%${filters.project}%` });
+    if (filters.unitNumber) query.andWhere('apartment.unitNumber ILIKE :unitNumber', { unitNumber: `%${filters.unitNumber}%` });
     //Exact match or range for size
     if (filters.size) query.andWhere('apartment.size = :size', { size: +filters.size });
     if (filters.minSize) query.andWhere('apartment.size >= :minSize', { minSize: +filters.minSize });
@@ -190,7 +194,6 @@ export class ApartmentsService {
     images: Express.Multer.File[],
     apartment: Apartment,
   ): Promise<Image[]> {
-    const host = process.env.HOST || 'http://localhost:3000';
     const uploadDir = './uploads';
     const imageEntities: Image[] = [];
 
@@ -204,7 +207,7 @@ export class ApartmentsService {
       // Convert image file to image entity
       const newImage = this.imageRepo.create({
         fileName: uniqueName,
-        url: `${host}/uploads/${uniqueName}`,
+        url: `/uploads/${uniqueName}`,
         apartment,
       });
 

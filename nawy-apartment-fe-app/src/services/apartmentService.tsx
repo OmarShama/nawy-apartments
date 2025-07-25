@@ -3,7 +3,7 @@ import { FetchParams } from "@/types/fetchParams";
 import { buildQueryParams } from "@/utils/queryParams";
 import { ApartmentCreateForm } from "@/types/apartmentCreateForm";
 
-const apiUrl = process.env.API_URL || "http://localhost:3000";
+const apiUrl = process.env.API_URL || "http://localhost:3005";
 export const getApartments = async (params: FetchParams = {}) => {
     const query = buildQueryParams(params);
 
@@ -37,7 +37,10 @@ export const createApartment = async (form: ApartmentCreateForm) => {
         method: 'POST',
         body: formData,
     });
-
-    if (!res.ok) throw new Error('Failed to create apartment');
+    if (!res.ok) {
+        const data = await res.json();
+        console.log(data.message)
+        throw new Error(data.message);
+    }
     return await res.json();
 };

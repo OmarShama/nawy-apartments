@@ -2,11 +2,14 @@
 
 import { SearchProps } from '@/types/searchProps';
 import { FaSearch } from 'react-icons/fa';
+import { Button } from '@/components/ui/button';
 
-
-export default function SearchPanel({ values, onChange }: SearchProps) {
+export default function SearchPanel({ values, onChange, onApply, onClear }: SearchProps & {
+    onApply: () => void;
+    onClear: () => void;
+}) {
     return (
-        <div className="p-4 border rounded-md w-full md:w-64 bg-white shadow">
+        <div className="p-4 border rounded-md w-full bg-white shadow space-y-2">
             <div className="flex items-center mb-2 text-muted-foreground gap-2">
                 <FaSearch />
                 <span className="text-sm font-medium">Search</span>
@@ -33,6 +36,10 @@ export default function SearchPanel({ values, onChange }: SearchProps) {
                     onChange={(e) => onChange({ ...values, project: e.target.value })}
                     className="w-full px-3 py-2 border rounded-md text-sm"
                 />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+                <Button variant="outline" onClick={onClear} size="sm">Clear</Button>
+                <Button onClick={onApply} size="sm">Apply</Button>
             </div>
         </div>
     );

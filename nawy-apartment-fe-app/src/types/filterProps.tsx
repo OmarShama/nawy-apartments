@@ -1,11 +1,11 @@
 export interface FilterProps {
     values: {
         size?: string;
-        minSize?: string;
-        maxSize?: string;
+        minSize?: number;
+        maxSize?: number;
         price?: string;
-        minPrice?: string;
-        maxPrice?: string;
+        minPrice?: number;
+        maxPrice?: number;
         bathroomsCount?: string;
         bedroomsCount?: string;
         city?: string;
@@ -15,5 +15,7 @@ export interface FilterProps {
     options: {
         cities: string[];
         countries: string[];
+        maxSize: number;
+        maxPrice: number;
     };
 }

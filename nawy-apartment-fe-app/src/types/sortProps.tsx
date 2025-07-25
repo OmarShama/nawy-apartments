@@ -1,7 +1,7 @@
 export interface SortProps {
     values: {
         sortBy?: string;
-        order?: 'ASC' | 'DESC';
+        order?: string;
     }
-    onChange: (sortBy: string, order: 'ASC' | 'DESC') => void;
+    onChange: (sortBy: string, order: string) => void;
 }

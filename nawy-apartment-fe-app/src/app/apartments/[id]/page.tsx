@@ -1,10 +1,10 @@
 'use client';
 import { getApartmentById } from '@/services/apartmentService';
-import { DetailsProps } from '@/types/detailsProps';
+import { Apartment } from '@/types/apartment';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-
+import { Image as ImageObject } from '@/types/image'
+import Image from 'next/image';
 
 export default function ApartmentDetailsPage() {
     const params = useParams();
@@ -43,14 +43,21 @@ export default function ApartmentDetailsPage() {
             <p className="mb-4">Description: {apartment.description}</p>
             <p className="mb-4">Amenities:</p>
             <div className="grid grid-cols-2 gap-4">
-                {apartment.amenities.map((amenity: string) => (
-                    <p className='mb-4'> {amenity} </p>
+                {apartment.amenities.map((amenity: string, index: number) => (
+                    <p key={index} className='mb-4'> {amenity} </p>
                 ))}
             </div>
             <p className="mb-4">Images:</p>
             <div className="grid grid-cols-2 gap-4">
-                {apartment.images.map((img: Image) => (
-                    <img key={img.id} src={img.url} alt="Apartment" className="rounded-lg w-full" />
+                {apartment.images.map((img: ImageObject) => (
+                    <Image
+                        key={img.id}
+                        src={`${process.env.NEXT_PUBLIC_API_URL}${img.url}`}
+                        alt="Apartment"
+                        width={500}
+                        height={300}
+                        className="rounded-lg w-full"
+                    />
                 ))}
             </div>
         </div>

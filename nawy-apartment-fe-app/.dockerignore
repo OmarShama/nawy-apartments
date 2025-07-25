@@ -1,0 +1,25 @@
+# Dependencies
+node_modules
+
+# Build output
+.next
+out
+
+# Env files
+.env
+.env.local
+.env.development
+.env.production
+
+# Logs and temp
+npm-debug.log
+yarn-error.log
+*.log
+tmp/
+temp/
+
+# OS/Editor junk
+.DS_Store
+.vscode
+.idea
+*.swp
