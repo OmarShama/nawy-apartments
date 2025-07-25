@@ -21,6 +21,7 @@ export function ApartmentCard({
 }: ApartmentCardProps) {
     const imageUrl = images?.[0]?.url || '';
     console.log(`This is image url ${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`);
+    const formatNumber = (num: number) => num.toLocaleString();
     return (
         <Card className="overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
             <div className="relative w-full h-48">
@@ -41,7 +42,7 @@ export function ApartmentCard({
                     <span>{bedroomsCount} 🛏 | {bathroomsCount} 🛁</span>
                     <span>{size} m²</span>
                 </div>
-                <p className="mt-2 font-bold text-primary">{price} EGP/mo</p>
+                <p className="mt-2 font-bold text-primary">{formatNumber(price)} EGP</p>
             </CardContent>
         </Card>
     );

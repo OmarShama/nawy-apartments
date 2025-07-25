@@ -12,9 +12,12 @@ import { ImageUploader } from '@/components/imageUploader';
 import { useEffect, useState } from 'react';
 import { apartmentSchema } from '@/types/apartmentSchema';
 import { X } from 'lucide-react';
+import MapSelector from './mapSelector';
 type ApartmentFormType = z.infer<typeof apartmentSchema>;
 export default function ApartmentForm() {
     const router = useRouter();
+    const [selectedCoords, setSelectedCoords] = useState<{ lat: number; lng: number } | null>(null);
+
     const [amenityInput, setAmenityInput] = useState('');
     const {
         register,
@@ -153,6 +156,42 @@ export default function ApartmentForm() {
             </ul>
 
             <ImageUploader files={images} onFiles={handleImageFiles} onRemove={handleRemoveImage} />
+            <div className="mb-6">
+                <MapSelector
+                    onLocationSelect={(coords) => {
+                        if (coords) {
+                            setSelectedCoords(coords);
+                            setValue('latitude', coords.lat.toString());
+                            setValue('longitude', coords.lng.toString());
+                        }
+                    }}
+                />
+
+                {selectedCoords && (
+                    <div className="mt-2 flex justify-end">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setSelectedCoords(null);
+                                setValue('latitude', '');
+                                setValue('longitude', '');
+                            }}
+                            className="flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Clear Pin
+                        </button>
+                    </div>
+                )}
+            </div>
 
             <Button type="submit">Create Apartment</Button>
         </form>

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Dialog } from '@headlessui/react';
 import { X } from 'lucide-react';
+import ApartmentLocationMap from '@/components/apartmentLocationMap';
 
 export default function ApartmentDetailsPage() {
     const params = useParams();
@@ -50,17 +51,40 @@ export default function ApartmentDetailsPage() {
 
 
                 {apartment.images.length > 0 && (
-                    <div className="flex justify-center mb-6">
-                        <div className="relative w-full max-w-4xl h-[400px] cursor-pointer" onClick={() => {
-                            setSelectedImage(`${process.env.NEXT_PUBLIC_API_URL}${apartment.images[currentImageIndex].url}`);
-                            setShowModal(true);
-                        }}>
+                    <div className="flex flex-col items-center mb-6">
+                        <div
+                            className="relative w-full max-w-4xl h-[400px] cursor-pointer mb-4"
+                            onClick={() => {
+                                setSelectedImage(
+                                    `${process.env.NEXT_PUBLIC_API_URL}${apartment.images[currentImageIndex].url}`
+                                );
+                                setShowModal(true);
+                            }}
+                        >
                             <Image
                                 src={`${process.env.NEXT_PUBLIC_API_URL}${apartment.images[currentImageIndex].url}`}
                                 alt="Apartment Preview"
                                 fill
                                 className="rounded-lg w-full h-auto object-cover"
                             />
+                        </div>
+                        <div className="flex gap-2 overflow-x-auto max-w-4xl w-full px-2">
+                            {apartment.images.map((img, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => setCurrentImageIndex(index)}
+                                    className={`relative w-20 h-20 cursor-pointer border-2 rounded ${index === currentImageIndex ? 'border-blue-500' : 'border-transparent'
+                                        }`}
+                                >
+                                    <Image
+                                        src={`${process.env.NEXT_PUBLIC_API_URL}${img.url}`}
+                                        alt={`Thumbnail ${index + 1}`}
+                                        fill
+                                        className="object-cover rounded"
+                                        sizes="80px"
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}
@@ -94,12 +118,16 @@ export default function ApartmentDetailsPage() {
                         </div>
                     </div>
                 </div>
-
+                {apartment.latitude && apartment.longitude && (
+                    <ApartmentLocationMap
+                        lat={parseFloat(apartment.latitude)}
+                        lng={parseFloat(apartment.longitude)}
+                    />
+                )}
                 <Dialog open={showModal} onClose={() => setShowModal(false)} className="relative z-50">
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
                         <div className="relative bg-white rounded-lg max-w-5xl w-full p-4 flex gap-4">
 
-                            {/* Close Button */}
                             <button
                                 onClick={() => setShowModal(false)}
                                 className="absolute top-2 right-2 text-gray-600 hover:text-black text-xl font-bold"
@@ -108,7 +136,6 @@ export default function ApartmentDetailsPage() {
                                 <X size="14" />
                             </button>
 
-                            {/* Main Image */}
                             <div className="flex-1 flex items-center justify-center">
                                 <div className="relative w-[800px] h-[500px]">
                                     <Image
@@ -120,7 +147,6 @@ export default function ApartmentDetailsPage() {
                                 </div>
                             </div>
 
-                            {/* Thumbnails */}
                             <div className="w-32 space-y-2 overflow-y-auto">
                                 {apartment.images.map((img) => {
                                     const imageUrl = `${process.env.NEXT_PUBLIC_API_URL}${img.url}`;

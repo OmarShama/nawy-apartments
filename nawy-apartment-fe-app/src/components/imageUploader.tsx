@@ -41,12 +41,12 @@ export function ImageUploader({
             )}
             <div className="flex flex-wrap gap-2 mt-4">
                 {files.map((file, index) => (
-                    <div key={index} className="relative group">
+                    <div key={index} className="relative w-20 h-20 group">
                         <Image
                             src={URL.createObjectURL(file)}
                             alt={file.name}
+                            className="object-cover rounded"
                             fill
-                            className="h-20 w-20 object-cover rounded"
                         />
                         <button
                             type="button"
