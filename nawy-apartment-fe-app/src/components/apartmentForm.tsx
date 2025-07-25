@@ -20,11 +20,10 @@ export default function ApartmentForm() {
         register,
         handleSubmit,
         setValue,
-        getValues,
         watch,
         formState: { errors },
     } = useForm<ApartmentFormType>({
-        resolver: zodResolver(apartmentSchema) as any,
+        resolver: zodResolver(apartmentSchema),
         defaultValues: {
             name: '',
             title: '',

@@ -20,7 +20,7 @@ export default function ApartmentsPage() {
     const router = useRouter();
     const [apartments, setApartments] = useState<Apartment[]>([]);
     const [total, setTotal] = useState(0);
-    const [limit] = useState(10);
+    const [limit] = useState(5);
     const [offset, setOffset] = useState(0);
 
     const [search, setSearch] = useState<SearchProps['values']>({

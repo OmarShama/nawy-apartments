@@ -19,14 +19,21 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     restart: always
-    env_file:
-      - ./nawy-apartment-be/.env
     depends_on:
       - db
     ports:
       - "3005:3005"
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/nawy?schema=nawy_apartments_schema
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: nawy
+      DB_SCHEMA: nawy_apartment
+      STORAGE_DRIVER: local
+      MAX_IMAGES: 10
+      PORT: 3005
     volumes:
       - ./nawy-apartment-be:/app
       - /app/node_modules
@@ -36,16 +43,16 @@ services:
     build:
       context: ./nawy-apartment-fe-app
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://backend:3005
+        API_URL: http://backend:3005
     container_name: frontend
     restart: always
-    env_file:
-      - ./nawy-apartment-fe-app/.env
     depends_on:
       - backend
     ports:
       - "3000:3000"
     volumes:
-      - ./nawy-apartment-fe-app:/app
       - /app/node_modules
 
 volumes:

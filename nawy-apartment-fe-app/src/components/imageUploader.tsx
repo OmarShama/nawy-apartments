@@ -1,10 +1,7 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { X } from 'lucide-react';
-interface ImageUploaderProps {
-    onFiles: (files: File[]) => void;
-    files: File[];
-}
+import Image from 'next/image';
 
 export function ImageUploader({
     files,
@@ -45,9 +42,10 @@ export function ImageUploader({
             <div className="flex flex-wrap gap-2 mt-4">
                 {files.map((file, index) => (
                     <div key={index} className="relative group">
-                        <img
+                        <Image
                             src={URL.createObjectURL(file)}
                             alt={file.name}
+                            fill
                             className="h-20 w-20 object-cover rounded"
                         />
                         <button

@@ -1,5 +1,6 @@
 import { FetchParams } from "@/types/fetchParams";
 
+// Build filters, search and sorting query params
 export function buildQueryParams(input: FetchParams = {}): string {
     const params = new URLSearchParams();
 

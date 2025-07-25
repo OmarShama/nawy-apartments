@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { FaFilter } from 'react-icons/fa';
@@ -11,8 +10,6 @@ export default function FilterPanel({ values, onChange, options, onApply, onClea
     onApply: () => void;
     onClear: () => void;
 }) {
-    const [open, setOpen] = useState(true);
-
     const handleChange = (field: keyof FilterProps['values'], value: number) => {
         onChange({ ...values, [field]: value });
     };

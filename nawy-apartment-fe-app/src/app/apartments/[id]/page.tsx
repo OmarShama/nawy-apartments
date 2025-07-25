@@ -4,7 +4,6 @@ import { getApartmentById } from '@/services/apartmentService';
 import { Apartment } from '@/types/apartment';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Image as ImageObject } from '@/types/image';
 import Image from 'next/image';
 import { Dialog } from '@headlessui/react';
 import { X } from 'lucide-react';

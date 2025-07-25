@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { SortProps } from '@/types/sortProps';
 
 export default function SortPanel({
