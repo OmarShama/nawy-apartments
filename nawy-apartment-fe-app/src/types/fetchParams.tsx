@@ -1,3 +1,9 @@
+/*
+ *
+ * Fetch Params Model
+ *  For apartment listing api query params
+ */
+
 export interface FetchParams {
     limit?: number;
     offset?: number;

@@ -1,4 +1,9 @@
 import ApartmentForm from "@/components/apartment/apartmentForm";
+/*
+ *
+ * Apartment Creation Page
+ *  uses apartmens Form
+ */
 
 export default function CreateApartmentPage() {
     return (

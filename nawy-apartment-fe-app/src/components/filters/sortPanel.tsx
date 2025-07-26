@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { SortProps } from '@/types/sortProps';
 
+/*
+ *
+ * Sort Panel Component
+ *  For sorting in apartments list
+ */
 export default function SortPanel({
     values,
     onChange,

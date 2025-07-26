@@ -4,6 +4,12 @@ import { SearchProps } from '@/types/searchProps';
 import { FaSearch } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 
+/*
+ *
+ * Search Panel Component
+ *  For search in apartments list
+ */
+
 export default function SearchPanel({ values, onChange, onApply, onClear }: SearchProps & {
     onApply: () => void;
     onClear: () => void;

@@ -1,3 +1,9 @@
+/*
+ *
+ * Apartment Create Model
+ *  For saving apartments data and sending to Api
+ */
+
 export interface ApartmentCreateForm {
     name: string;
     title: string;

@@ -1,4 +1,11 @@
 import { Image } from '@/types/image'
+
+/*
+ *
+ * Apartment Model for fetching data
+ * 
+ */
+
 export interface Apartment {
     id: number;
     unitNumber: string;

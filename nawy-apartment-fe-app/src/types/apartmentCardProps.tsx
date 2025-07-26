@@ -1,4 +1,10 @@
 import { Image } from '@/types/image'
+
+/*
+ *
+ * Apartment Card Model
+ *  For apartments listing
+ */
 export interface ApartmentCardProps {
     id: number;
     unitNumber: string;

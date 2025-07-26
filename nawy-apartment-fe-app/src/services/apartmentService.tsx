@@ -68,3 +68,6 @@ export async function deleteApartment(id: number) {
         throw error;
     }
 }
+
+// Edit Apartment API call
+//   TODO

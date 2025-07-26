@@ -6,6 +6,12 @@ import { FaFilter } from 'react-icons/fa';
 import { Input } from '@/components/ui/input';
 import { FilterProps } from '@/types/filterProps';
 
+/*
+ *
+ * Filter Panel Component
+ *  For filter in apartments list
+ */
+
 export default function FilterPanel({ values, onChange, options, onApply, onClear }: FilterProps & {
     onApply: () => void;
     onClear: () => void;

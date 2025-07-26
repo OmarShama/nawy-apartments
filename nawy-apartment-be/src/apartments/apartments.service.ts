@@ -14,7 +14,6 @@ import { ApartmentFilterDto } from './dto/apartment-filter.dto';
 import { Image } from 'src/images/entities/image.entity'
 import * as fs from 'fs';
 import * as path from 'path';
-import { bool } from 'aws-sdk/clients/signer';
 
 @Injectable()
 export class ApartmentsService {

@@ -1,3 +1,9 @@
+/*
+ *
+ * Sort Props Model
+ *  For sort panel
+ */
+
 export interface SortProps {
     values: {
         sortBy?: string;

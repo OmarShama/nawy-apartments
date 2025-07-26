@@ -16,6 +16,12 @@ import { useRouter } from 'next/navigation';
 import { Apartment } from '@/types/apartment';
 import { FaSearch, FaFilter, FaSortAmountDown } from 'react-icons/fa';
 
+/*
+ *
+ * Apartments Listing Page
+ *  uses: Search, filter, Sort, Apartment Card
+ */
+
 export default function ApartmentsPage() {
     const router = useRouter();
     const [apartments, setApartments] = useState<Apartment[]>([]);
@@ -109,7 +115,7 @@ export default function ApartmentsPage() {
                         onChange={setSearchDraft}
                         onApply={() => {
                             setSearch(searchDraft);
-                            setActivePanel(null); // Close the panel
+                            setActivePanel(null);
                         }}
                         onClear={() => {
                             setSearchDraft({ name: '', unitNumber: '', project: '' });
@@ -125,7 +131,7 @@ export default function ApartmentsPage() {
                         options={{ cities, countries, maxSize, maxPrice }}
                         onApply={() => {
                             setFilters(filtersDraft);
-                            setActivePanel(null); // Close the panel
+                            setActivePanel(null);
                         }}
                         onClear={() => {
                             setFiltersDraft({});

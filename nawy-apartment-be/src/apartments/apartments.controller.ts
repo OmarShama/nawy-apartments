@@ -5,11 +5,11 @@ import { UpdateApartmentDto } from './dto/update-apartment.dto';
 import { ApiResponse } from 'src/commons/responses/api-response';
 import { PaginatedResponse } from 'src/commons/responses/paginated-response';
 import { ApartmentFilterDto } from './dto/apartment-filter.dto';
-import { ApiBody, ApiExtraModels, ApiOkResponse, ApiOperation, ApiParam, getSchemaPath } from '@nestjs/swagger';
-import { ApiTags, ApiResponse as SwaggerApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiExtraModels, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { ApiResponse as SwaggerApiResponse } from '@nestjs/swagger';
 import { Apartment } from './entities/apartment.entity';
 import { ApartmentResponse } from 'src/commons/responses/api-response-apartment.dto';
-import { imageUploadOptions, validateTotalUploadSize } from 'src/config/multer.config';
+import { validateTotalUploadSize } from 'src/config/multer.config';
 import { createImageInterceptor } from 'src/config/image-limts.config';
 
 @Controller('apartments')

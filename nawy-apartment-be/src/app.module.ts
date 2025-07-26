@@ -9,7 +9,7 @@ import { ImagesModule } from './images/images.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // make .env accessible everywhere
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

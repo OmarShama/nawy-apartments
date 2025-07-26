@@ -12,6 +12,13 @@ import dynamic from 'next/dynamic';
 const ApartmentLocationMap = dynamic(() => import('@/components/map/apartmentLocationMap'), {
     ssr: false,
 });
+
+/*
+ *
+ * Apartment Details Page
+ *  uses: map and image dialog for image pop up
+ */
+
 export default function ApartmentDetailsPage() {
     const params = useParams();
     const id = Number(params?.id);

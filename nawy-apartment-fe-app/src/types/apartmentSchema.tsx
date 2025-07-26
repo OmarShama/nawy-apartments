@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+/*
+ *
+ * Apartment Creation Form validations using zod
+ * 
+ */
 export const apartmentSchema = z.object({
     name: z
         .string({ required_error: 'Name is required' })
