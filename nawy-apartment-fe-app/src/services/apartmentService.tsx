@@ -49,3 +49,22 @@ export const createApartment = async (form: ApartmentCreateForm) => {
     }
     return await res.json();
 };
+
+
+// Delete Apartment API call
+export async function deleteApartment(id: number) {
+    try {
+        const res = await fetch(`${apiUrl}/apartments/${id}`, {
+            method: 'DELETE',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to delete apartment');
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error deleting apartment:', error);
+        throw error;
+    }
+}

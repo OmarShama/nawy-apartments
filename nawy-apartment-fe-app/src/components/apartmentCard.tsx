@@ -3,10 +3,12 @@
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { ApartmentCardProps } from '@/types/apartmentCardProps';
-
+import { Pencil, Trash2 } from 'lucide-react';
+import { deleteApartment } from '@/services/apartmentService';
 
 
 export function ApartmentCard({
+    id,
     unitNumber,
     name,
     title,
@@ -18,12 +20,41 @@ export function ApartmentCard({
     country,
     project,
     images,
+    onDeleteSuccess,
 }: ApartmentCardProps) {
+    const handleDelete = async () => {
+        try {
+            await deleteApartment(id);
+            alert('Deleted successfully');
+            onDeleteSuccess?.();
+        } catch {
+            alert('Error deleting apartment');
+        }
+    };
+
     const imageUrl = images?.[0]?.url || '';
     console.log(`This is image url ${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`);
     const formatNumber = (num: number) => num.toLocaleString();
     return (
-        <Card className="overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
+        <Card className="relative overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
+            <div className="absolute top-2 right-2 flex gap-2 z-10">
+                {/* Edit Button */}
+                <button
+                    className="p-1 bg-white rounded-full shadow hover:bg-gray-100 transition"
+                >
+                    <Pencil size={16} className="text-gray-600" />
+                </button>
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDelete();
+                    }}
+                    className="p-1 bg-red-100 rounded-full shadow hover:bg-red-200 transition"
+                >
+                    <Trash2 size={16} className="text-red-600" />
+                </button>
+            </div>
             <div className="relative w-full h-48">
                 <Image
                     src={`${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`}

@@ -14,4 +14,5 @@ export interface ApartmentCardProps {
     country: string;
     project: string;
     images: Image[];
+    onDeleteSuccess?: () => void;
 }

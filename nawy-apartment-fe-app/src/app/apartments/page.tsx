@@ -36,7 +36,7 @@ export default function ApartmentsPage() {
 
     const [activePanel, setActivePanel] = useState<'search' | 'filter' | 'sort' | null>(null);
 
-    const fetchApartments = async () => {
+    const fetchApartments = async (limit: number, offset: number) => {
         try {
             const sortBy =
                 ['price', 'size', 'bedroomsCount', 'bathroomsCount'].includes(
@@ -64,7 +64,7 @@ export default function ApartmentsPage() {
     };
 
     useEffect(() => {
-        fetchApartments();
+        fetchApartments(limit, offset);
     }, [limit, offset, search, filters, sort, total]);
 
     const handleNext = () => {
@@ -77,6 +77,11 @@ export default function ApartmentsPage() {
         if (offset - limit >= 0) {
             setOffset(offset - limit);
         }
+    };
+
+
+    const handleDeleteSuccess = () => {
+        fetchApartments(limit, offset);
     };
     const iconRef = useRef<HTMLButtonElement>(null);
     const cities = [...new Set(apartments.map((apt) => apt.city))];
@@ -143,7 +148,7 @@ export default function ApartmentsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
                 {apartments.map((apt) => (
                     <Link key={apt.id} href={`/apartments/${apt.id}`}>
-                        <ApartmentCard key={apt.id} {...apt} />
+                        <ApartmentCard key={apt.id} {...apt} onDeleteSuccess={handleDeleteSuccess} />
                     </Link>
                 ))}
             </div>
