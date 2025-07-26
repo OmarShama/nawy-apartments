@@ -95,9 +95,7 @@ export default function ApartmentForm() {
         setImages(updated);
         setValue('images', updated);
     };
-    useEffect(() => {
-        console.log('Parent images state:', images);
-    }, [images]);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mx-auto space-y-4 p-6 bg-white rounded shadow">
             {[

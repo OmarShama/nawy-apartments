@@ -37,7 +37,6 @@ export function ApartmentCard({
     };
 
     const imageUrl = images?.[0]?.url || '';
-    console.log(`This is image url ${process.env.NEXT_PUBLIC_API_URL}${imageUrl}`);
     const formatNumber = (num: number) => num.toLocaleString();
     return (
         <Card className="relative overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">

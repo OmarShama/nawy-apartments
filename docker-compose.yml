@@ -35,7 +35,6 @@ services:
       MAX_IMAGES: 10
       PORT: 3005
     volumes:
-      - ./nawy-apartment-be:/app
       - /app/node_modules
       - ./nawy-apartment-be/uploads:/app/uploads 
 

@@ -15,7 +15,6 @@ export const getApartments = async (params: FetchParams = {}) => {
 
 // Apartment Details API call
 export const getApartmentById = async (id: number) => {
-    console.log('here', id);
     const res = await axios.get(`${apiUrl}/apartments/${id}`);
     return res.data;
 };
@@ -44,7 +43,6 @@ export const createApartment = async (form: ApartmentCreateForm) => {
     });
     if (!res.ok) {
         const data = await res.json();
-        console.log(data.message)
         throw new Error(data.message);
     }
     return await res.json();
