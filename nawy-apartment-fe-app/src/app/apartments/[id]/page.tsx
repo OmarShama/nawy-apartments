@@ -7,8 +7,11 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Dialog } from '@headlessui/react';
 import { X } from 'lucide-react';
-import ApartmentLocationMap from '@/components/apartmentLocationMap';
+import dynamic from 'next/dynamic';
 
+const ApartmentLocationMap = dynamic(() => import('@/components/apartmentLocationMap'), {
+    ssr: false,
+});
 export default function ApartmentDetailsPage() {
     const params = useParams();
     const id = Number(params?.id);

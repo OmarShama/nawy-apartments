@@ -12,12 +12,16 @@ import { ImageUploader } from '@/components/imageUploader';
 import { useEffect, useState } from 'react';
 import { apartmentSchema } from '@/types/apartmentSchema';
 import { X } from 'lucide-react';
-import MapSelector from './mapSelector';
+import dynamic from 'next/dynamic';
+
 type ApartmentFormType = z.infer<typeof apartmentSchema>;
+
 export default function ApartmentForm() {
     const router = useRouter();
     const [selectedCoords, setSelectedCoords] = useState<{ lat: number; lng: number } | null>(null);
-
+    const MapSelector = dynamic(() => import('@/components/mapSelector'), {
+        ssr: false,
+    });
     const [amenityInput, setAmenityInput] = useState('');
     const {
         register,
@@ -158,12 +162,11 @@ export default function ApartmentForm() {
             <ImageUploader files={images} onFiles={handleImageFiles} onRemove={handleRemoveImage} />
             <div className="mb-6">
                 <MapSelector
-                    onLocationSelect={(coords) => {
-                        if (coords) {
-                            setSelectedCoords(coords);
-                            setValue('latitude', coords.lat.toString());
-                            setValue('longitude', coords.lng.toString());
-                        }
+                    value={selectedCoords}
+                    onChange={(coords) => {
+                        setSelectedCoords(coords);
+                        setValue('latitude', coords?.lat.toString() || '');
+                        setValue('longitude', coords?.lng.toString() || '');
                     }}
                 />
 

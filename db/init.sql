@@ -29,17 +29,17 @@ CREATE TABLE IF NOT EXISTS nawy_apartment.apartment
 
 -- Seed Demo Data
 INSERT INTO nawy_apartment.apartment(
-  unit_number, name, title, size, price, description, bedrooms_count, bathrooms_count, amenities, address, city, country, project, normalized_unit_number, normalized_project
+  unit_number, name, title, size, price, description, bedrooms_count, bathrooms_count, amenities, address, city, country, latitude, longitude, project, normalized_unit_number, normalized_project
 )
 VALUES 
-  ('A-101', 'Luxury Apartment', '3BR Garden view', 180, 578500, 'Modern apartment in city center', 3, 2, '{Gym,Garden,Parking}', 'City Center', 'Cairo', 'Egypt', 'City Center Heights', 'a-101', 'citycenterheights'),
-  ('A-426', 'New Furnished Apartment', '5BR Nile view', 250, 995500, 'luxury big apartment in city center', 5, 3, '{Gym,Parking,Nile}', 'City Center', 'Cairo', 'Egypt', 'city center heights', 'a-426', 'citycenterheights'),
-  ('I-5520', 'Fantastic Apartment', '2BR new apartment', 120, 460500, 'Fantastic apartment in new cairo residence', 2, 1, '{Security,Mall,Clinic,Wifi}', 'New Cairo', 'Cairo', 'Egypt', 'New Cairo Residence', 'i-5520', 'newcairoresidence'),
-  ('M - 057', 'Duplex', '4BR duplex', 300, 1100000, 'Duplec apartment in NorthCoast', 5, 3, '{Gym,Sea,Pool,Parking}', 'North Coast', 'Marsa Matrouh', 'Egypt', 'Marasi', 'm-057', 'marasi'),
-  ('K- 6310', 'Luxury Villa', 'Infinity Pool villa', 900, 2450000, 'luxury huge villa in new cairo', 10, 6, '{Parking,Security}', 'New Cairo', 'Cairo', 'Egypt', 'New Cairo Residence', 'k-6310', 'newcairoresidence'),
-  ('Yy - 2052', 'New Furnished Studio', 'Modern Studio', 50, 500000, 'Studio rooftop in city center', 1, 1, '{Parking,Nile}', 'City Center', 'Cairo', 'Egypt', 'City Center Plaza', 'yy-2052', 'citycenterplaza'),
-  ('B-10 - S-2', 'Luxury Studio', 'Luxury furnished studio', 65, 650000, 'Luxury studio in alexandria', 1, 1, '{Sea,Pets}', 'Montaza', 'Alexandria', 'Egypt', 'Monatza Hotel', 'b-10-s-2', 'monatzahotel'),
-  ('V-17', 'New Furnished Villa', '3 floors villa', 760, 1750000, 'Villa ready for residence in new giza', 7, 4, '{Gym,Parking}', 'New Giza', 'Giza', 'Egypt', 'NewGiza Compound', 'v-17', 'newgizacompound');
+  ('A-101', 'Luxury Apartment', '3BR Garden view', 180, 578500, 'Modern apartment in city center', 3, 2, '{Gym,Garden,Parking}', 'City Center', 'Cairo', 'Egypt', '30.017028745500614', '31.41301274299622', 'City Center Heights', 'a-101', 'citycenterheights'),
+  ('A-426', 'New Furnished Apartment', '5BR Nile view', 250, 995500, 'luxury big apartment in city center', 5, 3, '{Gym,Parking,Nile}', 'City Center', 'Cairo', 'Egypt', '30.017028745500614', '31.41301274299622', 'city center heights', 'a-426', 'citycenterheights'),
+  ('I-5520', 'Fantastic Apartment', '2BR new apartment', 120, 460500, 'Fantastic apartment in new cairo residence', 2, 1, '{Security,Mall,Clinic,Wifi}', 'New Cairo', 'Cairo', 'Egypt', '30.017028745500614', '31.41301274299622', 'New Cairo Residence', 'i-5520', 'newcairoresidence'),
+  ('M - 057', 'Duplex', '4BR duplex', 300, 1100000, 'Duplec apartment in NorthCoast', 5, 3, '{Gym,Sea,Pool,Parking}', 'North Coast', 'Marsa Matrouh', 'Egypt', '30.017028745500614', '31.41301274299622', 'Marasi', 'm-057', 'marasi'),
+  ('K- 6310', 'Luxury Villa', 'Infinity Pool villa', 900, 2450000, 'luxury huge villa in new cairo', 10, 6, '{Parking,Security}', 'New Cairo', 'Cairo', 'Egypt', '30.017028745500614', '31.41301274299622', 'New Cairo Residence', 'k-6310', 'newcairoresidence'),
+  ('Yy - 2052', 'New Furnished Studio', 'Modern Studio', 50, 500000, 'Studio rooftop in city center', 1, 1, '{Parking,Nile}', 'City Center', 'Cairo', 'Egypt', '30.017028745500614', '31.41301274299622', 'City Center Plaza', 'yy-2052', 'citycenterplaza'),
+  ('B-10 - S-2', 'Luxury Studio', 'Luxury furnished studio', 65, 650000, 'Luxury studio in alexandria', 1, 1, '{Sea,Pets}', 'Montaza', 'Alexandria', 'Egypt', '30.017028745500614', '31.41301274299622', 'Monatza Hotel', 'b-10-s-2', 'monatzahotel'),
+  ('V-17', 'New Furnished Villa', '3 floors villa', 760, 1750000, 'Villa ready for residence in new giza', 7, 4, '{Gym,Parking}', 'New Giza', 'Giza', 'Egypt', '30.017028745500614', '31.41301274299622', 'NewGiza Compound', 'v-17', 'newgizacompound');
 
 
 -- Table: nawy_apartment.image

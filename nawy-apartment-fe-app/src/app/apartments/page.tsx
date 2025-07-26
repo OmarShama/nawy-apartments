@@ -20,7 +20,7 @@ export default function ApartmentsPage() {
     const router = useRouter();
     const [apartments, setApartments] = useState<Apartment[]>([]);
     const [total, setTotal] = useState(0);
-    const [limit] = useState(5);
+    const [limit, setLimit] = useState(10);
     const [offset, setOffset] = useState(0);
 
     const [search, setSearch] = useState<SearchProps['values']>({
@@ -65,7 +65,7 @@ export default function ApartmentsPage() {
 
     useEffect(() => {
         fetchApartments();
-    }, [limit, offset, search, filters, sort]);
+    }, [limit, offset, search, filters, sort, total]);
 
     const handleNext = () => {
         if (offset + limit < total) {
@@ -154,7 +154,28 @@ export default function ApartmentsPage() {
                     Page {Math.floor(offset / limit) + 1} of {Math.ceil(total / limit)}
                 </span>
                 <Button onClick={handleNext} disabled={offset + limit >= total}>Next</Button>
+                <div className="flex items-center gap-2">
+                    <label htmlFor="limit-select" className="text-sm font-medium text-gray-700">
+                        Apartments per page:
+                    </label>
+                    <select
+                        id="limit-select"
+                        value={limit}
+                        onChange={(e) => {
+                            setLimit(Number(e.target.value));
+                            setOffset(0);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className="border rounded px-2 py-1 text-sm"
+                    >
+                        {[5, 10, 15, 20].map((value) => (
+                            <option key={value} value={value}>
+                                {value}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
-        </div>
+        </div >
     );
 }
