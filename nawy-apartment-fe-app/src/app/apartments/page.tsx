@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { getApartments } from '@/services/apartmentService';
 import { Button } from '@/components/ui/button';
-import { ApartmentCard } from '@/components/apartmentCard';
+import { ApartmentCard } from '@/components/apartment/apartmentCard';
 import SearchPanel from '@/components/filters/searchPanel';
 import FilterPanel from '@/components/filters/filterPanel';
 import SortPanel from '@/components/filters/sortPanel';

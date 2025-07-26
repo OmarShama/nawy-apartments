@@ -2,7 +2,11 @@ import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { X } from 'lucide-react';
 import Image from 'next/image';
-
+/*
+ *
+ * Image Upload and Validation Component
+ *  for image drag and drop in create form
+ */
 export function ImageUploader({
     files,
     onFiles,
@@ -17,7 +21,7 @@ export function ImageUploader({
             const validFiles = acceptedFiles.filter(file =>
                 ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
             );
-            onFiles(validFiles); // send new files to parent
+            onFiles(validFiles);
         },
         [onFiles]
     );
@@ -34,11 +38,9 @@ export function ImageUploader({
     return (
         <div {...getRootProps()} className="border-2 border-dashed p-4 text-center cursor-pointer mb-4">
             <input {...getInputProps()} />
-            {isDragActive ? (
-                <p>Drop images here...</p>
-            ) : (
-                <p>Drag & drop images or click to browse (JPEG, JPG, PNG)</p>
-            )}
+
+            <p>Drag & drop images or click to browse (JPEG, JPG, PNG)</p>
+
             <div className="flex flex-wrap gap-2 mt-4">
                 {files.map((file, index) => (
                     <div key={index} className="relative w-20 h-20 group">

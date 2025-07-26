@@ -9,7 +9,7 @@ import { Dialog } from '@headlessui/react';
 import { X } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-const ApartmentLocationMap = dynamic(() => import('@/components/apartmentLocationMap'), {
+const ApartmentLocationMap = dynamic(() => import('@/components/map/apartmentLocationMap'), {
     ssr: false,
 });
 export default function ApartmentDetailsPage() {

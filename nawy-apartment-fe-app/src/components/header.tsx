@@ -2,6 +2,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+/*
+ *
+ * Aplication Header Component
+ * 
+ */
 export default function Header() {
     return (
         <header className="flex justify-between items-center px-6 py-4 shadow-md bg-white">

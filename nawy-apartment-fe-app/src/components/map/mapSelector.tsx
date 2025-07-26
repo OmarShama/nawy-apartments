@@ -10,6 +10,11 @@ L.Icon.Default.mergeOptions({
     shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
 });
 
+/*
+ *
+ * Map Container Component
+ *  For map in create form
+ */
 export default function MapSelector({
     value,
     onChange,

@@ -16,10 +16,15 @@ import dynamic from 'next/dynamic';
 
 type ApartmentFormType = z.infer<typeof apartmentSchema>;
 
+/*
+ *
+ * Apartment Form and Validation Component
+ *  For apartment Create page
+ */
 export default function ApartmentForm() {
     const router = useRouter();
     const [selectedCoords, setSelectedCoords] = useState<{ lat: number; lng: number } | null>(null);
-    const MapSelector = dynamic(() => import('@/components/mapSelector'), {
+    const MapSelector = dynamic(() => import('@/components/map/mapSelector'), {
         ssr: false,
     });
     const [amenityInput, setAmenityInput] = useState('');

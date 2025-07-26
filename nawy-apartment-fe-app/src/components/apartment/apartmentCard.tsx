@@ -6,7 +6,11 @@ import { ApartmentCardProps } from '@/types/apartmentCardProps';
 import { Pencil, Trash2 } from 'lucide-react';
 import { deleteApartment } from '@/services/apartmentService';
 
-
+/*
+ *
+ * Apartment Card Component 
+ *  For apartments listing page
+ */
 export function ApartmentCard({
     id,
     unitNumber,

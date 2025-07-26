@@ -1,6 +1,11 @@
 'use client';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
+/*
+ *
+ * Application Footer Component
+ * 
+ */
 export default function Footer() {
     return (
         <footer className="bg-gray-100 px-6 py-8 mt-12">
